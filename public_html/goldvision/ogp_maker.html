@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>OGP画像生成ツール | GOLD VISION</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #222;
+            color: #fff;
+            font-family: sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        canvas {
+            border: 1px solid #555;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            max-width: 100%;
+            height: auto;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #c5a059, #e6c888);
+            color: #000;
+            padding: 15px 40px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>OGP画像作成ツール</h1>
+    <p>以下の画像が自動生成されました。<br>画像を右クリックして「名前を付けて画像を保存」し、<b>ogp.jpg</b> という名前で保存してください。<br>その後、<code>assets/img/</code> フォルダにアップロードしてください。</p>
+
+    <canvas id="ogpCanvas" width="1200" height="630"></canvas>
+    
+    <br>
+    
+    <button onclick="downloadImage()" class="btn">画像をダウンロード (ogp.jpg)</button>
+
+    <script>
+        document.fonts.ready.then(function() {
+            drawOGP();
+        });
+
+        function drawOGP() {
+            const canvas = document.getElementById('ogpCanvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+
+            // 1. 背景（黒）
+            ctx.fillStyle = '#050505'; // 完全な黒よりわずかに明るい方が質感が良い
+            ctx.fillRect(0, 0, width, height);
+
+            // 2. ゴールド粒子（Las Vegas Style）
+            const particleCount = 150;
+            const colors = ['#c5a059', '#e6c888', '#ffffff'];
+            
+            for (let i = 0; i < particleCount; i++) {
+                const x = Math.random() * width;
+                const y = Math.random() * height;
+                const size = Math.random() * 4 + 1;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const alpha = Math.random() * 0.6 + 0.2;
+
+                ctx.beginPath();
+                const grad = ctx.createRadialGradient(x, y, 0, x, y, size * 2);
+                grad.addColorStop(0, hexToRgba(color, alpha));
+                grad.addColorStop(1, hexToRgba(color, 0));
+                
+                ctx.fillStyle = grad;
+                ctx.arc(x, y, size * 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // 3. テキスト描画 (GOLD VISION)
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            // フォント設定
+            ctx.font = 'bold 100px "Noto Serif JP", serif';
+            
+            // ゴールドグラデーションのテキスト
+            const text = 'GOLD VISION';
+            const textWidth = ctx.measureText(text).width;
+            const textX = width / 2;
+            const textY = height / 2 - 20;
+
+            const textGrad = ctx.createLinearGradient(textX - textWidth/2, 0, textX + textWidth/2, 0);
+            textGrad.addColorStop(0, '#c5a059');
+            textGrad.addColorStop(0.3, '#e6c888');
+            textGrad.addColorStop(0.5, '#ffffff');
+            textGrad.addColorStop(0.7, '#e6c888');
+            textGrad.addColorStop(1, '#c5a059');
+
+            ctx.fillStyle = textGrad;
+            ctx.shadowColor = 'rgba(197, 160, 89, 0.5)';
+            ctx.shadowBlur = 20;
+            ctx.fillText(text, textX, textY);
+
+            // 4. サブテキスト
+            ctx.font = '30px "Noto Serif JP", serif';
+            ctx.fillStyle = '#cccccc';
+            ctx.shadowBlur = 0;
+            ctx.fillText('Providing unwavering value like gold', width / 2, height / 2 + 70);
+            
+            // 5. URL
+            ctx.font = '24px sans-serif';
+            ctx.fillStyle = '#666666';
+            ctx.fillText('goldvision-site.com', width / 2, height - 40);
+        }
+
+        function hexToRgba(hex, alpha) {
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        function downloadImage() {
+            const canvas = document.getElementById('ogpCanvas');
+            const link = document.createElement('a');
+            link.download = 'ogp.jpg';
+            link.href = canvas.toDataURL('image/jpeg', 0.9);
+            link.click();
+        }
+    </script>
+</body>
+</html>
