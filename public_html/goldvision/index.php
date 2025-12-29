@@ -15,6 +15,16 @@ $token = $_SESSION['token'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo SITE_NAME; ?> | 公式サイト</title>
     <meta name="description" content="<?php echo SITE_NAME; ?>の公式サイトです。現場に強い人材提案、スピード対応で長期的な価値を提供します。">
+    
+    <!-- OGP Settings -->
+    <meta property="og:title" content="<?php echo SITE_NAME; ?> | 公式サイト">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?php echo SITE_URL; ?>">
+    <meta property="og:image" content="<?php echo SITE_URL; ?>assets/img/ogp.jpg">
+    <meta property="og:site_name" content="<?php echo SITE_NAME; ?>">
+    <meta property="og:description" content="現場に強い人材提案、スピード対応で長期的な価値を提供します。">
+    <meta name="twitter:card" content="summary_large_image">
+
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- Google Fonts (Noto Serif JP for premium feel) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
