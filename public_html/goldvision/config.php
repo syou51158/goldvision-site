@@ -3,20 +3,33 @@
 
 // サイト基本情報
 define('SITE_NAME', 'GOLD VISION 株式会社');
+define('SITE_NAME_EN', 'GOLD VISION Co., Ltd.');
 define('SITE_URL', (empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . '/goldvision/');
 
-// メール設定（★差し替え箇所）
+// メール設定
 // 管理者メールアドレス（お問い合わせ受信先）
-// 本番公開時に必ず正式なメールアドレスに変更してください。
-define('ADMIN_EMAIL', 'info@example.com'); 
+define('ADMIN_EMAIL', 'gol.d.vision.fy25@gmail.com'); 
 
 // 自動返信メールの送信元アドレス
-// ロリポップの場合、ドメインのメールアドレスを設定することを推奨します。
-define('FROM_EMAIL', 'noreply@' . $_SERVER['HTTP_HOST']);
+// ロリポップの場合、ドメインのメールアドレスを設定することを推奨します（なりすまし判定回避のため）
+// 独自ドメイン運用なら info@goldvision.co.jp などが理想ですが、なければgmailでも可（ただし迷惑メールに入りやすい）
+// 一旦、送信元も管理者メールと同じにします
+define('FROM_EMAIL', ADMIN_EMAIL);
 define('FROM_NAME', SITE_NAME);
 
 // 会社情報
 define('COMPANY_NAME', 'GOLD VISION 株式会社');
+define('COMPANY_NAME_KANA', 'ゴールドヴィジョン');
 define('CEO_NAME', '中尾 敬祐');
-define('COMPANY_ADDRESS', '〒569-0826 大阪府高槻市寿町2-21-25-102');
-define('COMPANY_PHONE', '080-6154-7156'); // 必要に応じて固定電話へ変更
+define('CEO_NAME_EN', 'NAKAO KEISUKE');
+define('REGISTRATION_DATE', '2025年11月18日');
+
+// 住所情報
+define('COMPANY_POSTAL_CODE', '569-0826');
+define('COMPANY_ADDRESS', '大阪府高槻市寿町二丁目21番25号 バッハレジデンスI 102号室');
+define('COMPANY_ADDRESS_EN', 'Bach Residence I 102, 2-21-25 Kotobuki-cho, Takatsuki-shi, Osaka 569-0826, Japan');
+
+// 連絡先
+// 電話番号は未定の場合は空文字、または代表者携帯など
+define('COMPANY_PHONE', '080-6154-7156'); 
+define('COMPANY_EMAIL', 'gol.d.vision.fy25@gmail.com');

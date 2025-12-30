@@ -26,6 +26,8 @@ $token = $_SESSION['token'];
     <meta name="twitter:card" content="summary_large_image">
 
     <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Favicon (Emoji for simplicity) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
     <!-- Google Fonts (Noto Serif JP for premium feel) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -62,8 +64,8 @@ $token = $_SESSION['token'];
     <canvas id="hero-canvas"></canvas>
     <div class="container hero-content">
         <h1><?php echo SITE_NAME; ?></h1>
-        <p>Providing unwavering value like gold</p>
-        <span class="hero-sub">揺るぎない価値を、あなたに。</span>
+        <p class="en-sub">Providing unwavering value like gold</p>
+        <span class="hero-sub">人材とビジネスに、揺るぎない価値を。</span>
         <div style="margin-top: 3rem;">
             <a href="#contact" class="btn">お問い合わせ</a>
         </div>
@@ -136,7 +138,14 @@ $token = $_SESSION['token'];
         <div class="company-info">
             <dl class="company-row">
                 <dt>会社名</dt>
-                <dd><?php echo COMPANY_NAME; ?></dd>
+                <dd>
+                    <?php echo COMPANY_NAME; ?><br>
+                    <span style="font-size: 0.8rem; color: #888;"><?php echo SITE_NAME_EN; ?></span>
+                </dd>
+            </dl>
+            <dl class="company-row">
+                <dt>設立</dt>
+                <dd><?php echo REGISTRATION_DATE; ?></dd>
             </dl>
             <dl class="company-row">
                 <dt>代表者</dt>
@@ -144,15 +153,28 @@ $token = $_SESSION['token'];
             </dl>
             <dl class="company-row">
                 <dt>住所</dt>
-                <dd><?php echo COMPANY_ADDRESS; ?></dd>
+                <dd>
+                    〒<?php echo COMPANY_POSTAL_CODE; ?><br>
+                    <?php echo COMPANY_ADDRESS; ?><br>
+                    <span style="font-size: 0.8rem; color: #888; display:block; margin-top:5px;"><?php echo COMPANY_ADDRESS_EN; ?></span>
+                </dd>
             </dl>
             <dl class="company-row">
-                <dt>電話番号</dt>
-                <dd><?php echo COMPANY_PHONE; ?></dd>
+                <dt>連絡先</dt>
+                <dd>
+                    Email: <?php echo COMPANY_EMAIL; ?><br>
+                    Tel: <?php echo COMPANY_PHONE; ?>
+                </dd>
             </dl>
             <dl class="company-row">
                 <dt>事業内容</dt>
-                <dd>人材派遣業、人材紹介業、営業支援、業務支援<br><small>※許可番号：申請中/未定</small></dd>
+                <dd>
+                    人材派遣事業<br>
+                    人材紹介事業<br>
+                    営業支援事業<br>
+                    業務支援・コンサルティング<br>
+                    <small style="color: #888;">※許可番号：取得準備中</small>
+                </dd>
             </dl>
         </div>
     </div>
@@ -220,13 +242,14 @@ $token = $_SESSION['token'];
 <footer>
     <div class="container">
         <div class="footer-info">
-            <p><strong><?php echo SITE_NAME; ?></strong></p>
-            <p><?php echo COMPANY_ADDRESS; ?></p>
+            <p style="font-size: 1.2rem; margin-bottom: 10px;"><strong><?php echo SITE_NAME; ?></strong></p>
+            <p style="font-size: 0.9rem; margin-bottom: 5px;">〒<?php echo COMPANY_POSTAL_CODE; ?> <?php echo COMPANY_ADDRESS; ?></p>
+            <p style="font-size: 0.9rem;">Email: <?php echo COMPANY_EMAIL; ?></p>
         </div>
-        <ul style="list-style: none; display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; font-size: 0.8rem;">
+        <ul style="list-style: none; display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; font-size: 0.8rem; margin-top: 20px;">
             <li><a href="privacy.php">プライバシーポリシー</a></li>
         </ul>
-        <p class="copyright">&copy; <?php echo date('Y'); ?> <?php echo SITE_NAME; ?> All Rights Reserved.</p>
+        <p class="copyright">&copy; <?php echo date('Y'); ?> <?php echo SITE_NAME_EN; ?> All Rights Reserved.</p>
     </div>
 </footer>
 
