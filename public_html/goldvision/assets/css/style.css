@@ -1,109 +1,202 @@
 @charset "UTF-8";
 
-/* リセットCSS & 基本設定 */
-*, *::before, *::after {
-    box_sizing: border_box;
+/* ==========================================================================
+   RESET & BASE
+   ========================================================================== */
+*,
+*::before,
+*::after {
+    box-sizing: border_box;
     margin: 0;
     padding: 0;
 }
 
+:root {
+    --black-deep: #050505;
+    --black-surface: #0a0a0a;
+    --gold-base: #c5a059;
+    --gold-light: #fcf6ba;
+    --gold-dark: #aa771c;
+    --neon-gold: #ffd700;
+    --text-white: #ffffff;
+    --text-gray: #a0a0a0;
+
+    /* Complex Gold Gradient with "Sheen" stops */
+    --gold-gradient: linear-gradient(110deg,
+            #aa771c 0%,
+            #bf953f 20%,
+            #fcf6ba 40%,
+            #b38728 60%,
+            #fbf5b7 80%,
+            #aa771c 100%);
+    --gold-text-gradient: linear-gradient(110deg,
+            #aa771c 0%,
+            #bf953f 20%,
+            #fcf6ba 40%,
+            #b38728 60%,
+            #fbf5b7 80%,
+            #aa771c 100%);
+
+    --scroll-ratio: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-    background-color: #111; /* 黒ベース */
-    color: #f0f0f0;
+    font-family: 'Noto Serif JP', serif;
+    background-color: var(--black-deep);
+    color: var(--text-white);
     line-height: 1.8;
     letter-spacing: 0.05em;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
 }
 
 a {
     text-decoration: none;
     color: inherit;
-    transition: opacity 0.3s;
+    transition: all 0.3s ease;
 }
 
-a:hover {
-    opacity: 0.7;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-    vertical-align: bottom;
+ul {
+    list-style: none;
 }
 
 .container {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
 }
 
-/* カラー設定 */
-:root {
-    --gold: #c5a059;
-    --gold-light: #e6c888;
-    --black: #111;
-    --dark-gray: #222;
-    --text-main: #f0f0f0;
+/* ==========================================================================
+   TYPOGRAPHY & UTILITIES
+   ========================================================================== */
+/* REACTIVE GOLD MIXIN LOGIC */
+.text-gold,
+.section-title,
+.btn,
+.feature-card h3,
+.logo {
+    background: var(--gold-gradient);
+    background-size: 200% auto;
+    /* Move background based on scroll ratio + slight animation for "alive" feel */
+    background-position: calc(var(--scroll-ratio) * 100%) center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: background-position 0.1s linear;
+    /* Smooth update */
 }
 
-/* ユーティリティ */
+/* Specific overwrite for borders/boxes that need background, not text-clip */
+.btn {
+    -webkit-text-fill-color: initial;
+    /* Reset for button background */
+    color: #000;
+    transition: all 0.3s ease, background-position 0.1s linear;
+}
+
 .text-gold {
-    color: var(--gold);
+    font-weight: bold;
 }
 
 .section-title {
-    font-size: 2rem;
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
     position: relative;
     padding-bottom: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+
+    /* Override animation with scroll logic */
+    animation: none;
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
 }
 
 .section-title::after {
     content: '';
     display: block;
-    width: 60px;
-    height: 3px;
-    background: linear-gradient(to right, var(--gold), var(--gold-light));
+    width: 100px;
+    height: 4px;
+    background: var(--gold-gradient);
     position: absolute;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
+    box-shadow: 0 0 10px var(--gold-base);
 }
 
 .section {
-    padding: 80px 0;
+    padding: 100px 0;
+    position: relative;
 }
 
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
 .btn {
     display: inline-block;
-    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    background: var(--gold-gradient);
     color: #000;
-    padding: 15px 40px;
-    border-radius: 2px;
+    padding: 18px 50px;
+    border-radius: 0;
+    /* Sharp edges for luxury feel */
     font-weight: bold;
-    font-size: 1.1rem;
-    border: none;
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+    border: 1px solid var(--gold-light);
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(197, 160, 89, 0.4);
+    z-index: 1;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    transition: 0.5s;
+    z-index: -1;
 }
 
 .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(197, 160, 89, 0.4);
-    opacity: 1;
+    transform: scale(1.05);
+    box-shadow: 0 0 40px rgba(197, 160, 89, 0.8);
 }
 
-/* ヘッダー */
+.btn:hover::before {
+    left: 100%;
+}
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
 header {
-    background-color: rgba(17, 17, 17, 0.95);
+    background-color: rgba(5, 5, 5, 0.8);
+    /* Semi-transparent black */
+    backdrop-filter: blur(10px);
     padding: 20px 0;
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+    transition: padding 0.3s;
 }
 
 header .container {
@@ -113,50 +206,72 @@ header .container {
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--gold);
-    letter-spacing: 0.1em;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
 }
 
 .nav-menu ul {
     display: flex;
-    list-style: none;
 }
 
 .nav-menu li {
-    margin-left: 30px;
+    margin-left: 40px;
 }
 
 .nav-menu a {
     font-size: 0.9rem;
-    color: #ccc;
+    color: var(--text-gray);
+    position: relative;
+    padding: 5px 0;
 }
 
-.nav-menu a:hover {
-    color: var(--gold);
+.nav-menu a:hover,
+.nav-menu a.text-gold {
+    color: var(--gold-light);
+    text-shadow: 0 0 8px var(--gold-base);
 }
 
-/* ハンバーガーメニュー（スマホ用） */
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--gold-base);
+    transition: width 0.3s;
+}
+
+.nav-menu a:hover::after {
+    width: 100%;
+}
+
 .menu-toggle {
     display: none;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     cursor: pointer;
-    color: var(--gold);
+    color: var(--gold-base);
 }
 
-/* ヒーローエリア */
+/* ==========================================================================
+   HERO AREA
+   ========================================================================== */
 .hero {
     height: 100vh;
-    min-height: 600px;
-    background-color: #000; /* 背景画像はJSで描画するため黒単色に変更 */
-    position: relative; /* Canvas配置用 */
+    min-height: 700px;
+    background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding-top: 60px; /* ヘッダー分 */
     overflow: hidden;
+    padding-top: 80px;
 }
 
 #hero-canvas {
@@ -165,221 +280,335 @@ header .container {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1; /* コンテンツの下 */
+    z-index: 1;
 }
 
 .hero-content {
     position: relative;
-    z-index: 2; /* Canvasの上 */
+    z-index: 2;
+    padding: 0 20px;
+}
+
+.hero-title-wrapper {
+    margin-bottom: 1rem;
+    perspective: 1000px;
 }
 
 .hero-content h1 {
-    font-size: 3rem;
+    font-size: 6rem;
+    /* Huge/Conspicuous */
+    line-height: 1.1;
     margin-bottom: 1rem;
-    letter-spacing: 0.1em;
-    background: linear-gradient(to right, #e6c888, #c5a059);
+    letter-spacing: 0.05em;
+    background: var(--gold-gradient);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: transparent;
+    /* Changed from text-fill-color for compatibility */
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.5));
+    animation: float 6s ease-in-out infinite;
 }
 
-.hero-content p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-    color: #ccc;
-    font-weight: 300;
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.en-sub {
+    font-size: 1.8rem;
+    color: var(--gold-light);
+    margin-bottom: 1rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(197, 160, 89, 0.8);
+    opacity: 0;
+    animation: fadeInUp 1s ease 0.5s forwards;
 }
 
 .hero-sub {
-    font-size: 1rem;
-    letter-spacing: 0.2em;
-    opacity: 0.8;
-    margin-top: 1rem;
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+    color: #ccc;
     display: block;
-    font-family: serif;
-    font-style: italic;
+    margin-top: 1rem;
+    font-family: 'Noto Serif JP', serif;
+    opacity: 0;
+    animation: fadeInUp 1s ease 1s forwards;
 }
 
-/* 強み (Features) */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   FEATURES (STRENGTH)
+   ========================================================================== */
 .features {
-    background-color: #1a1a1a;
+    background-color: var(--black-surface);
 }
 
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 40px;
 }
 
 .feature-card {
-    background-color: #222;
-    padding: 40px;
-    border-top: 3px solid var(--gold);
+    background: rgba(20, 20, 20, 0.8);
+    padding: 50px 30px;
+    border: 1px solid rgba(197, 160, 89, 0.1);
     text-align: center;
-    transition: transform 0.3s;
+    transition: all 0.4s ease;
+    position: relative;
+}
+
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--gold-gradient);
+    transform: scaleX(0);
+    transition: transform 0.4s;
 }
 
 .feature-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
+    background: rgba(25, 25, 25, 0.9);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    border-color: rgba(197, 160, 89, 0.3);
+}
+
+.feature-card:hover::before {
+    transform: scaleX(1);
 }
 
 .feature-card h3 {
-    color: var(--gold);
-    margin-bottom: 1.5rem;
-    font-size: 1.3rem;
+    color: var(--gold-base);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--gold-text-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-/* 事業内容 (Service) */
+.feature-card p {
+    color: #bbb;
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+/* ==========================================================================
+   SERVICE
+   ========================================================================== */
 .service-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 30px;
     justify-content: center;
 }
 
 .service-item {
-    background-color: #222;
-    padding: 30px;
-    width: calc(50% - 20px);
-    border-left: 1px solid var(--gold);
+    background: linear-gradient(145deg, #111, #0a0a0a);
+    padding: 40px;
+    width: calc(50% - 15px);
+    border: 1px solid #222;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-item::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(197, 160, 89, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+}
+
+.service-item:hover {
+    border-color: var(--gold-dark);
+}
+
+.service-item:hover::after {
+    opacity: 1;
 }
 
 .service-item h3 {
-    color: #fff;
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-    border-bottom: 1px solid #444;
-    padding-bottom: 0.5rem;
+    color: var(--gold-light);
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+    border-bottom: 1px solid var(--gold-dark);
+    padding-bottom: 10px;
     display: inline-block;
 }
 
-/* 会社概要 (Company) */
+.service-item p {
+    color: #ccc;
+}
+
+/* Service CTA Box */
+.service-cta {
+    background: rgba(30, 30, 30, 0.5);
+    padding: 30px;
+    border: 1px solid var(--gold-base);
+    max-width: 450px;
+    width: 100%;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.service-cta:hover {
+    background: rgba(40, 40, 40, 0.8);
+    box-shadow: 0 0 20px rgba(197, 160, 89, 0.2);
+}
+
+/* ==========================================================================
+   COMPANY & FOOTER
+   ========================================================================== */
 .company-info {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
-    border: 1px solid #333;
-    padding: 40px;
-    background-color: #1a1a1a;
+    border: 1px solid rgba(197, 160, 89, 0.3);
+    padding: 60px;
+    background: rgba(10, 10, 10, 0.8);
+    position: relative;
+}
+
+.company-info::before {
+    content: '';
+    position: absolute;
+    /* Four corners decoration could go here */
 }
 
 .company-row {
     display: flex;
     border-bottom: 1px solid #333;
-    padding: 15px 0;
-}
-
-.company-row:last-child {
-    border-bottom: none;
+    padding: 20px 0;
 }
 
 .company-row dt {
     width: 30%;
-    color: var(--gold);
+    color: var(--gold-base);
     font-weight: bold;
+    font-family: 'Cinzel', serif;
 }
 
-.company-row dd {
-    width: 70%;
-}
-
-/* お問い合わせフォーム */
 .contact {
-    background-color: #151515;
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: var(--gold);
-    font-size: 0.9rem;
-}
-
-.required::after {
-    content: '必須';
-    background-color: #c5a059;
-    color: #000;
-    font-size: 0.7rem;
-    padding: 2px 6px;
-    border-radius: 2px;
-    margin-left: 8px;
-    vertical-align: middle;
+    background-color: #080808;
 }
 
 .form-control {
     width: 100%;
-    padding: 12px;
-    background-color: #222;
-    border: 1px solid #444;
+    padding: 15px;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
     color: #fff;
-    border-radius: 2px;
+    border-radius: 0;
     font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .form-control:focus {
     outline: none;
-    border-color: var(--gold);
+    border-color: var(--gold-base);
+    box-shadow: 0 0 10px rgba(197, 160, 89, 0.2);
 }
 
-textarea.form-control {
-    resize: vertical;
-    min-height: 150px;
+.required::after {
+    background-color: var(--gold-base);
+    /* Gold badge */
+    color: #000;
 }
 
-.form-submit {
-    text-align: center;
-    margin-top: 2rem;
-}
-
-/* フッター */
 footer {
     background-color: #000;
-    padding: 40px 0;
-    text-align: center;
-    border-top: 1px solid #333;
-    color: #888;
-    font-size: 0.9rem;
+    padding: 60px 0 30px;
+    border-top: 1px solid rgba(197, 160, 89, 0.2);
+    color: #666;
 }
 
-.footer-info {
-    margin-bottom: 1rem;
+footer strong {
+    color: var(--gold-light);
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.1em;
 }
 
-.copyright {
-    color: #555;
-    font-size: 0.8rem;
-}
-
-/* スマホ対応 */
+/* ==========================================================================
+   MOBILE RESPONSIVE
+   ========================================================================== */
 @media (max-width: 768px) {
-    .hero-content h1 {
+    .section-title {
         font-size: 2rem;
     }
-    
+
+    .hero-content h1 {
+        font-size: 3rem;
+        /* Still big, but fits mobile */
+    }
+
+    .en-sub {
+        font-size: 1rem;
+    }
+
+    .logo {
+        font-size: 1.4rem;
+    }
+
     .nav-menu {
-        display: none; /* JSで制御するならここを変更 */
+        display: none;
         position: absolute;
         top: 60px;
         left: 0;
         width: 100%;
-        background-color: #111;
-        border-bottom: 1px solid #333;
+        background-color: rgba(5, 5, 5, 0.98);
+        border-bottom: 1px solid var(--gold-base);
     }
-    
+
     .nav-menu.active {
         display: block;
     }
 
     .nav-menu ul {
         flex-direction: column;
-        padding: 20px;
+        padding: 30px;
+        text-align: center;
     }
-    
+
     .nav-menu li {
         margin: 0;
-        margin-bottom: 15px;
+        margin-bottom: 25px;
+    }
+
+    .nav-menu a {
+        font-size: 1.2rem;
+        color: #fff;
     }
 
     .menu-toggle {
@@ -396,10 +625,6 @@ footer {
 
     .company-row dt {
         width: 100%;
-        margin-bottom: 5px;
-    }
-
-    .company-row dd {
-        width: 100%;
+        margin-bottom: 8px;
     }
 }

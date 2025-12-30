@@ -1,24 +1,24 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // スムーズスクロール
     const anchors = document.querySelectorAll('a[href^="#"]');
-    
+
     anchors.forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
+        anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            
+
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
-            
+
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 const headerHeight = document.querySelector('header').offsetHeight;
                 const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - headerHeight;
-                
+
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'
                 });
-                
+
                 // スマホメニューが開いていたら閉じる
                 const navMenu = document.querySelector('.nav-menu');
                 if (navMenu.classList.contains('active')) {
@@ -31,9 +31,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // ハンバーガーメニュー
     const menuToggle = document.querySelector('.menu-toggle');
     const navMenu = document.querySelector('.nav-menu');
-    
+
     if (menuToggle) {
-        menuToggle.addEventListener('click', function() {
+        menuToggle.addEventListener('click', function () {
             navMenu.classList.toggle('active');
         });
     }
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // フォームバリデーション（簡易）
     const contactForm = document.querySelector('form');
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', function (e) {
             const requiredInputs = contactForm.querySelectorAll('[required]');
             let hasError = false;
 
@@ -60,4 +60,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    // React to Scroll (Metallic Glint Effect)
+    window.addEventListener('scroll', () => {
+        const totalScroll = document.documentElement.scrollTop;
+        const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollRatio = totalScroll / windowHeight;
+
+        // 0.0 to 1.0 (approximated)
+        document.body.style.setProperty('--scroll-ratio', scrollRatio);
+    });
 });

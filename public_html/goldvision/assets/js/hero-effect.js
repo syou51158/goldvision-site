@@ -1,6 +1,6 @@
 /**
- * Gold Particles Animation
- * 高級感のあるゴールドの光の粒子が浮遊するエフェクト
+ * Gold Particles Animation - Las Vegas Luxury Edition
+ * より豪華に、より煌びやかに。
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -11,30 +11,25 @@ document.addEventListener('DOMContentLoaded', function() {
     let width, height;
     let particles = [];
 
-    // 設定
+    // Configuration for High-End Luxury Feel
     const config = {
-        particleCount: 60,      // 粒子の数
-        baseSpeed: 0.2,         // 基本速度
+        particleCount: 120,     // 密度を倍増
+        baseSpeed: 0.8,         // 速度を上げて「都市の鼓動」を表現
         colors: [
-            'rgba(197, 160, 89, ',  // ゴールド
-            'rgba(230, 200, 136, ', // 明るいゴールド
-            'rgba(255, 255, 255, '  // 白（輝き用）
+            'rgba(191, 149, 63, ',  // Dark Gold
+            'rgba(252, 246, 186, ', // Light Gold (Pale)
+            'rgba(179, 135, 40, ',  // Gold Metallic
+            'rgba(255, 215, 0, ',   // Neon Gold
+            'rgba(255, 255, 255, '  // Pure Sparkle
         ]
     };
 
-    // リサイズ処理
     function resize() {
-        const parent = canvas.parentElement;
-        if (parent) {
-            width = canvas.width = parent.offsetWidth;
-            height = canvas.height = parent.offsetHeight;
-        } else {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-        }
+        // 親要素ではなくウィンドウ全体をカバーして没入感を高める
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
     }
 
-    // パーティクルクラス
     class Particle {
         constructor() {
             this.reset();
@@ -43,48 +38,54 @@ document.addEventListener('DOMContentLoaded', function() {
         reset() {
             this.x = Math.random() * width;
             this.y = Math.random() * height;
-            this.size = Math.random() * 3 + 1; // 1px 〜 4px
+            this.size = Math.random() * 4 + 0.5; // 大小のメリハリをつける
+            
+            // 上昇するような動き（成功・運気上昇のイメージ）
             this.speedX = (Math.random() - 0.5) * config.baseSpeed;
-            this.speedY = (Math.random() - 0.5) * config.baseSpeed;
-            this.life = Math.random() * 0.5 + 0.5; // 透明度
-            this.decay = Math.random() * 0.005 + 0.002; // 点滅速度
+            this.speedY = (Math.random() - 0.8) * config.baseSpeed; 
+            
+            this.life = Math.random() * 0.6 + 0.4; // 最初からある程度明るく
+            this.decay = Math.random() * 0.01 + 0.005; // 点滅を早くして「煌めき」を表現
             this.colorPrefix = config.colors[Math.floor(Math.random() * config.colors.length)];
-            this.direction = Math.random() > 0.5 ? 1 : -1; // 点滅の方向
+            this.direction = Math.random() > 0.5 ? 1 : -1;
         }
 
         update() {
-            // 移動
             this.x += this.speedX;
             this.y += this.speedY;
 
-            // 画面外に出たら反対側へ
+            // 画面外処理（ループ）
             if (this.x < 0) this.x = width;
             if (this.x > width) this.x = 0;
             if (this.y < 0) this.y = height;
-            if (this.y > height) this.y = 0;
+            if (this.y > height) this.y = height; // 下から出てくる感じも維持
 
-            // 点滅（明滅）アニメーション
+            // Sparkle Effect (Flash)
             this.life += this.decay * this.direction;
-            if (this.life >= 1 || this.life <= 0.2) {
-                this.direction *= -1;
+            if (this.life >= 1) {
+                this.direction = -1;
+                this.life = 1;
+            } else if (this.life <= 0.1) {
+                this.direction = 1;
+                this.life = 0.1;
+                // 位置をリセットせず、その場でまた光らせる
             }
         }
 
         draw() {
-            // 円形の光を描画
             ctx.beginPath();
-            // グラデーションで光っている感じを出す
-            const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 2);
-            gradient.addColorStop(0, this.colorPrefix + this.life + ')');
-            gradient.addColorStop(1, this.colorPrefix + '0)'); // 外側は透明
-            
+            // Glow effect
+            const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size * 4); // Glow range wider
+            gradient.addColorStop(0, this.colorPrefix + this.life + ')'); // Core
+            gradient.addColorStop(0.4, this.colorPrefix + (this.life * 0.5) + ')'); // Mid glow
+            gradient.addColorStop(1, 'rgba(0,0,0,0)'); // Fade out
+
             ctx.fillStyle = gradient;
-            ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
+            ctx.arc(this.x, this.y, this.size * 4, 0, Math.PI * 2);
             ctx.fill();
         }
     }
 
-    // 初期化
     function init() {
         resize();
         particles = [];
@@ -94,16 +95,15 @@ document.addEventListener('DOMContentLoaded', function() {
         animate();
     }
 
-    // アニメーションループ
     function animate() {
         ctx.clearRect(0, 0, width, height);
         
-        // 背景を完全な黒ではなく、少し残像を残す場合（今回はクリアでOK）
-        // ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+        // Add subtle trail effect for motion blur (Luxury speed feel)
+        // ctx.fillStyle = 'rgba(5, 5, 5, 0.2)';
         // ctx.fillRect(0, 0, width, height);
 
-        // パーティクル同士を線で結ぶ（星座のような演出）- オプション
-        // 今回は「ラスベガスの光」イメージなので、線は結ばず「ボケ」を重視する
+        // Global Composite Operation for neon glow blending
+        ctx.globalCompositeOperation = 'lighter';
 
         particles.forEach(p => {
             p.update();

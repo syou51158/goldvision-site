@@ -28,14 +28,17 @@ $token = $_SESSION['token'];
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- Favicon (Emoji for simplicity) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
-    <!-- Google Fonts (Noto Serif JP for premium feel) -->
+    <!-- Google Fonts (Noto Serif JP & Cinzel for premium feel) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Serif+JP:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        /* 見出しなどに明朝体を使用して高級感を出す */
-        h1, h2, h3, .logo, .hero-sub {
+        /* 見出しなどはCinzel(英語)と明朝体(日本語)を併用して超高級感を出す */
+        body {
             font-family: 'Noto Serif JP', serif;
+        }
+        h1, h2, h3, .logo, .en-sub, .hero-sub, .btn, .nav-menu a {
+            font-family: 'Cinzel', 'Noto Serif JP', serif;
         }
     </style>
 </head>
@@ -63,11 +66,13 @@ $token = $_SESSION['token'];
 <div class="hero">
     <canvas id="hero-canvas"></canvas>
     <div class="container hero-content">
-        <h1><?php echo SITE_NAME; ?></h1>
+        <div class="hero-title-wrapper">
+            <h1>GOLD VISION</h1>
+        </div>
         <p class="en-sub">Providing unwavering value like gold</p>
-        <span class="hero-sub">人材とビジネスに、揺るぎない価値を。</span>
-        <div style="margin-top: 3rem;">
-            <a href="#contact" class="btn">お問い合わせ</a>
+        <span class="hero-sub">空前絶後の価値を、あなたに。</span>
+        <div style="margin-top: 4rem;">
+            <a href="#contact" class="btn btn-hero">INQUIRY NOW</a>
         </div>
     </div>
 </div>
