@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>PayloadContent</key>
+    <array>
+        <dict>
+            <key>EmailAccountDescription</key>
+            <string>GOLD VISION</string>
+            <key>EmailAccountName</key>
+            <string>GOLD VISION info</string>
+            <key>EmailAccountType</key>
+            <string>EmailTypeIMAP</string>
+            <key>EmailAddress</key>
+            <string>info@goldvision.co.jp</string>
+            <key>IncomingMailServerAuthentication</key>
+            <string>EmailAuthPassword</string>
+            <key>IncomingMailServerHostName</key>
+            <string>imap.lolipop.jp</string>
+            <key>IncomingMailServerPassword</key>
+            <string>m_Qr-F6-5ofe_5LC</string>
+            <key>IncomingMailServerPortNumber</key>
+            <integer>993</integer>
+            <key>IncomingMailServerUseSSL</key>
+            <true/>
+            <key>IncomingMailServerUsername</key>
+            <string>info@goldvision.co.jp</string>
+            <key>OutgoingMailServerAuthentication</key>
+            <string>EmailAuthPassword</string>
+            <key>OutgoingMailServerHostName</key>
+            <string>smtp.lolipop.jp</string>
+            <key>OutgoingMailServerPassword</key>
+            <string>m_Qr-F6-5ofe_5LC</string>
+            <key>OutgoingMailServerPortNumber</key>
+            <integer>465</integer>
+            <key>OutgoingMailServerUseSSL</key>
+            <true/>
+            <key>OutgoingMailServerUsername</key>
+            <string>info@goldvision.co.jp</string>
+            <key>PayloadDescription</key>
+            <string>Configures email settings for info@goldvision.co.jp</string>
+            <key>PayloadDisplayName</key>
+            <string>GOLD VISION Email (info)</string>
+            <key>PayloadIdentifier</key>
+            <string>jp.co.goldvision.mail.info</string>
+            <key>PayloadType</key>
+            <string>com.apple.mail.managed</string>
+            <key>PayloadUUID</key>
+            <string>58B6F8C0-2A7E-4F3D-8E1A-9C5B2D4E6F8D</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+        </dict>
+    </array>
+    <key>PayloadDescription</key>
+    <string>Install email settings for GOLD VISION</string>
+    <key>PayloadDisplayName</key>
+    <string>GOLD VISION Mail Setup</string>
+    <key>PayloadIdentifier</key>
+    <string>jp.co.goldvision.profile</string>
+    <key>PayloadOrganization</key>
+    <string>GOLD VISION Co., Ltd.</string>
+    <key>PayloadRemovalDisallowed</key>
+    <false/>
+    <key>PayloadType</key>
+    <string>Configuration</string>
+    <key>PayloadUUID</key>
+    <string>1A2B3C4D-5E6F-7A8B-9C0D-1E2F3A4B5C6G</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
+</dict>
+</plist>

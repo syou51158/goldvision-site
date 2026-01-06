@@ -8,13 +8,13 @@ define('SITE_URL', (empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVE
 
 // メール設定
 // 管理者メールアドレス（お問い合わせ受信先）
-define('ADMIN_EMAIL', 'gol.d.vision.fy25@gmail.com'); 
+define('ADMIN_EMAIL', 'info@goldvision.co.jp'); 
 
 // 自動返信メールの送信元アドレス
 // ロリポップの場合、ドメインのメールアドレスを設定することを推奨します（なりすまし判定回避のため）
 // 独自ドメイン運用なら info@goldvision.co.jp などが理想ですが、なければgmailでも可（ただし迷惑メールに入りやすい）
 // 一旦、送信元も管理者メールと同じにします
-define('FROM_EMAIL', ADMIN_EMAIL);
+define('FROM_EMAIL', 'info@goldvision.co.jp');
 define('FROM_NAME', SITE_NAME);
 
 // 会社情報
@@ -32,4 +32,4 @@ define('COMPANY_ADDRESS_EN', 'Bach Residence I 102, 2-21-25 Kotobuki-cho, Takats
 // 連絡先
 // 電話番号は未定の場合は空文字、または代表者携帯など
 define('COMPANY_PHONE', '080-6154-7156'); 
-define('COMPANY_EMAIL', 'gol.d.vision.fy25@gmail.com');
+define('COMPANY_EMAIL', 'info@goldvision.co.jp');
