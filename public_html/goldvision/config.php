@@ -31,5 +31,5 @@ define('COMPANY_ADDRESS_EN', 'Bach Residence I 102, 2-21-25 Kotobuki-cho, Takats
 
 // 連絡先
 // 電話番号は未定の場合は空文字、または代表者携帯など
-define('COMPANY_PHONE', '080-6154-7156'); 
+define('COMPANY_PHONE', '080-8318-4044'); 
 define('COMPANY_EMAIL', 'info@goldvision.co.jp');
