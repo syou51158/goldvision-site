@@ -65,6 +65,7 @@ if (!defined('SITE_NAME')) {
             <ul>
                 <li><a href="index.php" <?php echo ($active_menu ?? '') === 'home' ? 'class="active"' : ''; ?>>お問い合わせ一覧</a></li>
                 <li><a href="news.php" <?php echo ($active_menu ?? '') === 'news' ? 'class="active"' : ''; ?>>ニュース設定</a></li>
+                <li><a href="users.php" <?php echo ($active_menu ?? '') === 'users' ? 'class="active"' : ''; ?>>アカウント管理</a></li>
                 <li style="border-left: 1px solid #444; padding-left: 20px; margin-left: 10px;">
                     <a href="../index.php" target="_blank" style="display:flex; align-items:center; gap:5px;">
                         Webサイト確認 <span style="font-size: 12px;">↗</span>
