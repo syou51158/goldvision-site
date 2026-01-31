@@ -53,6 +53,7 @@ $token = $_SESSION['token'];
         <div class="menu-toggle">☰</div>
         <nav class="nav-menu">
             <ul>
+                <li><a href="#news">NEWS</a></li>
                 <li><a href="#features">強み</a></li>
                 <li><a href="#service">事業内容</a></li>
                 <li><a href="#company">会社概要</a></li>
@@ -74,23 +75,66 @@ $token = $_SESSION['token'];
         <div style="margin-top: 4rem;">
             <a href="#contact" class="btn btn-hero">INQUIRY NOW</a>
         </div>
+        <a href="#features" class="scroll-down">
+            ↓
+        </a>
     </div>
 </div>
+
+<!-- News Section (Added via Admin) -->
+<?php
+// DB接続してニュースを取得（エラー時は無視して表示しない）
+$news_items = [];
+try {
+    if (file_exists('db_connect.php')) {
+        // 簡易的に直接PDO作成（config読み込み済み前提）
+        // ※db_connect.phpはテーブル作成含むため、ここでは読み込まずに直接接続するか、includeして静かに使う
+        // 今回はシンプルに、DBファイルがあれば接続して取得
+        $pdo_news = new PDO('sqlite:' . __DIR__ . '/goldvision.db');
+        $pdo_news->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        $stmt_news = $pdo_news->query("SELECT * FROM news ORDER BY published_date DESC LIMIT 3");
+        if ($stmt_news) {
+            $news_items = $stmt_news->fetchAll();
+        }
+    }
+} catch (Exception $e) {
+    // Ignore error
+}
+
+if (!empty($news_items)):
+?>
+<section id="news" class="section" style="padding: 40px 0; background: #151515; border-bottom: 1px solid #222;">
+    <div class="container">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+            <h2 class="section-title" style="margin: 0; font-size: 1.5rem; text-align: left;">NEWS</h2>
+            <span style="font-size: 0.8rem; color: #888;">LATEST INFORMATION</span>
+        </div>
+        <ul class="news-list" style="list-style: none; padding: 0; margin: 0;">
+            <?php foreach ($news_items as $item): ?>
+            <li class="fade-in-up" style="border-bottom: 1px solid #333; padding: 15px 0; display: flex; flex-wrap: wrap; align-items: baseline;">
+                <time style="color: var(--gold); font-family: 'Cinzel', serif; margin-right: 20px; font-weight: bold; min-width: 100px;"><?php echo htmlspecialchars($item['published_date']); ?></time>
+                <span class="news-title"><?php echo htmlspecialchars($item['title']); ?></span>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</section>
+<?php endif; ?>
 
 <!-- 強み (Features) -->
 <section id="features" class="section features">
     <div class="container">
-        <h2 class="section-title">3つの強み</h2>
+        <h2 class="section-title fade-in-up">3つの強み</h2>
         <div class="features-grid">
-            <div class="feature-card">
+            <div class="feature-card fade-in-up delay-100">
                 <h3>01. 現場に強い人材提案</h3>
                 <p>企業の課題を深く理解し、即戦力となる最適な人材をご提案。現場視点でのマッチングを重視しています。</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card fade-in-up delay-200">
                 <h3>02. スピード対応</h3>
                 <p>ビジネスの機会を逃さないため、迅速なレスポンスと行動を徹底。急なご依頼にも柔軟に対応いたします。</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card fade-in-up delay-300">
                 <h3>03. 長期的な価値提供</h3>
                 <p>一過性の関係ではなく、長期的なパートナーとして信頼関係を構築。「ゴールド」のような不変の価値を提供し続けます。</p>
             </div>
@@ -101,33 +145,33 @@ $token = $_SESSION['token'];
 <!-- 事業内容 (Service) -->
 <section id="service" class="section">
     <div class="container">
-        <h2 class="section-title">事業内容</h2>
+        <h2 class="section-title fade-in-up">事業内容</h2>
         <div class="service-list">
-            <div class="service-item">
+            <div class="service-item fade-in-up delay-100">
                 <h3>人材派遣事業</h3>
                 <p>必要なスキルを持った人材を、必要な期間・必要な人数、迅速に派遣いたします。</p>
             </div>
-            <div class="service-item">
+            <div class="service-item fade-in-up delay-200">
                 <h3>人材紹介事業</h3>
                 <p>貴社の採用課題に合わせて、最適な候補者をご紹介。採用成功まで伴走いたします。</p>
             </div>
-            <div class="service-item">
+            <div class="service-item fade-in-up delay-100">
                 <h3>営業支援</h3>
                 <p>新規開拓から既存顧客のフォローまで、営業活動を強力にサポートし、売上拡大に貢献します。</p>
             </div>
-            <div class="service-item">
+            <div class="service-item fade-in-up delay-200">
                 <h3>業務支援・コンサルティング</h3>
                 <p>業務プロセスの改善や効率化など、企業の成長を阻害する課題を解決へ導きます。</p>
             </div>
         </div>
         
-        <div style="text-align: center; margin-top: 4rem; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-            <div style="background: #222; padding: 20px; border: 1px solid #333; max-width: 400px;">
+        <div class="fade-in-up delay-300" style="text-align: center; margin-top: 4rem; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+            <div style="background: rgba(30,30,30,0.5); padding: 30px; border: 1px solid #333; max-width: 400px; backdrop-filter: blur(5px);">
                 <h4 style="color: var(--gold); margin-bottom: 10px;">企業のご担当者様</h4>
                 <p style="margin-bottom: 15px; font-size: 0.9rem;">人材・営業支援のご相談はお気軽にお問い合わせください。</p>
                 <a href="#contact" class="btn" style="padding: 10px 20px; font-size: 0.9rem;">企業向けお問い合わせ</a>
             </div>
-            <div style="background: #222; padding: 20px; border: 1px solid #333; max-width: 400px;">
+            <div style="background: rgba(30,30,30,0.5); padding: 30px; border: 1px solid #333; max-width: 400px; backdrop-filter: blur(5px);">
                 <h4 style="color: var(--gold); margin-bottom: 10px;">お仕事をお探しの方</h4>
                 <p style="margin-bottom: 15px; font-size: 0.9rem;">キャリアのご相談や求人紹介も受け付けています。</p>
                 <a href="#contact" class="btn" style="padding: 10px 20px; font-size: 0.9rem;">求職者向けお問い合わせ</a>
@@ -139,8 +183,8 @@ $token = $_SESSION['token'];
 <!-- 会社概要 (Company) -->
 <section id="company" class="section">
     <div class="container">
-        <h2 class="section-title">会社概要</h2>
-        <div class="company-info">
+        <h2 class="section-title fade-in-up">会社概要</h2>
+        <div class="company-info fade-in-up delay-100">
             <dl class="company-row">
                 <dt>会社名</dt>
                 <dd>
@@ -188,13 +232,13 @@ $token = $_SESSION['token'];
 <!-- お問い合わせ (Contact) -->
 <section id="contact" class="section contact">
     <div class="container">
-        <h2 class="section-title">お問い合わせ</h2>
-        <p style="text-align: center; margin-bottom: 3rem;">
+        <h2 class="section-title fade-in-up">お問い合わせ</h2>
+        <p class="fade-in-up delay-100" style="text-align: center; margin-bottom: 3rem;">
             お仕事のご依頼、ご相談などお気軽にお問い合わせください。<br>
             <span class="required">必須</span>の項目は必ずご入力ください。
         </p>
         
-        <form action="form_handler.php" method="post" style="max-width: 700px; margin: 0 auto;">
+        <form action="form_handler.php" method="post" class="fade-in-up delay-200" style="max-width: 700px; margin: 0 auto; padding: 40px; background: rgba(20,20,20,0.5); border-radius: 8px; border: 1px solid #333;">
             <!-- CSRF Token -->
             <input type="hidden" name="token" value="<?php echo $token; ?>">
             
@@ -257,6 +301,8 @@ $token = $_SESSION['token'];
         <p class="copyright">&copy; <?php echo date('Y'); ?> <?php echo SITE_NAME_EN; ?> All Rights Reserved.</p>
     </div>
 </footer>
+
+<div id="scroll-top">↑</div>
 
 <script src="assets/js/main.js"></script>
 <script src="assets/js/hero-effect.js"></script>

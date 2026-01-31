@@ -68,5 +68,46 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // 0.0 to 1.0 (approximated)
         document.body.style.setProperty('--scroll-ratio', scrollRatio);
+
+        // Scroll Top Button
+        const scrollTopBtn = document.getElementById('scroll-top');
+        if (scrollTopBtn) {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+        }
+    });
+
+    // Scroll to Top Click
+    const scrollTopBtn = document.getElementById('scroll-top');
+    if (scrollTopBtn) {
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // Scroll Animation Observer
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target); // Text stays visible once populated
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in-up').forEach(el => {
+        observer.observe(el);
     });
 });
+

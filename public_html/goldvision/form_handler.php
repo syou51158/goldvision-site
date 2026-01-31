@@ -52,6 +52,16 @@ if (!empty($errors)) {
 mb_language("Japanese");
 mb_internal_encoding("UTF-8");
 
+// DB保存 (Phase 1)
+try {
+    require_once 'db_connect.php'; // DB接続
+    $stmt = $pdo->prepare("INSERT INTO inquiries (type, name, company, email, phone, message) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->execute([$type, $name, $company, $email, $phone, $message]);
+} catch (Exception $e) {
+    // DBエラーが起きてもメールは送るようにする（またはエラー処理）
+    // error_log($e->getMessage());
+}
+
 // 1. 管理者へ送信
 $admin_subject = "【" . SITE_NAME . "】Webサイトからのお問い合わせ";
 $admin_body = <<<EOD
