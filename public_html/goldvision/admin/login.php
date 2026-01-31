@@ -1,6 +1,13 @@
 <?php
 session_start();
 require_once '../config.php';
+require_once '../db_connect.php';
+
+// CSRFトークン生成
+if (empty($_SESSION['admin_csrf_token'])) {
+    $_SESSION['admin_csrf_token'] = bin2hex(random_bytes(32));
+}
+$csrf_token = $_SESSION['admin_csrf_token'];
 
 // 既にログイン済みならダッシュボードへ
 if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
@@ -11,21 +18,39 @@ if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $token = $_POST['token'] ?? '';
+    if (!hash_equals($csrf_token, $token)) {
+        die('Invalid Request.');
+    }
+
+    $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
     
-    // 簡易的なパスワード認証（本来はDB管理推奨だが、小規模サイトのためconfig管理またはハードコード）
-    // ここでは仮として 'admin1234' をパスワードとします。実運用では変更してください。
-    // config.php に ADMIN_PASSWORD を定義するのが良いでしょう。
-    
-    // とりあえず簡易パスワード
-    $valid_password = 'admin'; 
-
-    if ($password === $valid_password) {
-        $_SESSION['admin_logged_in'] = true;
-        header('Location: index.php');
-        exit;
+    if (empty($username) || empty($password)) {
+        $error = 'ユーザー名とパスワードを入力してください。';
     } else {
-        $error = 'パスワードが間違っています。';
+        try {
+            // DBからユーザー取得
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username");
+            $stmt->execute([':username' => $username]);
+            $user = $stmt->fetch();
+
+            if ($user && password_verify($password, $user['password_hash'])) {
+                // ログイン成功
+                session_regenerate_id(true); // セッションハイジャック対策
+                $_SESSION['admin_logged_in'] = true;
+                $_SESSION['admin_user_id'] = $user['id'];
+                $_SESSION['admin_username'] = $user['username'];
+                header('Location: index.php');
+                exit;
+            } else {
+                $error = 'ユーザー名またはパスワードが間違っています。';
+                // セキュリティのため詳細なエラー（"ユーザーが存在しません"など）は出さない
+            }
+        } catch (PDOException $e) {
+            $error = 'システムエラーが発生しました。';
+            error_log($e->getMessage());
+        }
     }
 }
 ?>
@@ -67,6 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border: 1px solid #444;
             color: #fff;
             border-radius: 4px;
+            box-sizing: border-box; /* paddingを含めた幅計算 */
         }
         .btn {
             width: 100%;
@@ -87,7 +113,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="error"><?php echo htmlspecialchars($error); ?></p>
     <?php endif; ?>
     <form method="post">
+        <input type="hidden" name="token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+        
+        <input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
         <input type="password" name="password" class="form-control" placeholder="Password" required>
+        
         <button type="submit" class="btn">LOGIN</button>
     </form>
     <p style="margin-top: 20px; font-size: 0.8rem; color: #666;">

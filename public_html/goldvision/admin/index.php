@@ -1,20 +1,5 @@
 <?php
-session_start();
-require_once '../config.php';
-require_once '../db_connect.php';
-
-// ログインチェック
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-    header('Location: login.php');
-    exit;
-}
-
-// ログアウト処理
-if (isset($_GET['action']) && $_GET['action'] === 'logout') {
-    session_destroy();
-    header('Location: login.php');
-    exit;
-}
+require_once 'auth_check.php';
 
 // お問い合わせ一覧取得
 $stmt = $pdo->query("SELECT * FROM inquiries ORDER BY created_at DESC");

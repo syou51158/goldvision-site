@@ -1,13 +1,5 @@
 <?php
-session_start();
-require_once '../config.php';
-require_once '../db_connect.php';
-
-// ログインチェック
-if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
-    header('Location: login.php');
-    exit;
-}
+require_once 'auth_check.php';
 
 $id = $_GET['id'] ?? null;
 if (!$id) {
