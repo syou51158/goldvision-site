@@ -25,9 +25,9 @@ define('CEO_NAME_EN', 'NAKAO KEISUKE');
 define('REGISTRATION_DATE', '2025年11月18日');
 
 // 住所情報
-define('COMPANY_POSTAL_CODE', '569-0826');
-define('COMPANY_ADDRESS', '大阪府高槻市寿町二丁目21番25号 バッハレジデンスI 102号室');
-define('COMPANY_ADDRESS_EN', 'Bach Residence I 102, 2-21-25 Kotobuki-cho, Takatsuki-shi, Osaka 569-0826, Japan');
+define('COMPANY_POSTAL_CODE', '610-0112');
+define('COMPANY_ADDRESS', '京都府城陽市長池北清水100-60');
+define('COMPANY_ADDRESS_EN', '100-60 Kitashimizu, Nagaike, Joyo-shi, Kyoto 610-0112, Japan');
 
 // 連絡先
 // 電話番号は未定の場合は空文字、または代表者携帯など
